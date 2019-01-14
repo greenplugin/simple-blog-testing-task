@@ -25,7 +25,7 @@ class CategoryUpdateRequest extends FormRequest
     {
         return [
             'title' => 'required|max:128',
-            'slug' => 'required|unique:articles|max:64|regex:/^[a-zA-Z0-9_-]+$/'
+            'slug' => 'required|max:64|regex:/^[a-zA-Z0-9_-]+$/'
         ];
     }
 }
