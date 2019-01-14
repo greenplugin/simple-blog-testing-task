@@ -9,12 +9,16 @@ class CategoryController extends Controller
 {
     public function showAction($slug)
     {
-        $category = Category::where(['slug' => $slug])->with('articles')->firstOrFail();
+        $category = Category::where(['slug' => $slug])->firstOrFail();
 
-        $categories = Category::orderBy('updated_at', 'asc')->get();
+        $articles = $category->articles()
+            ->orderBy('created_at', 'desc')->orderBy('id', 'asc')
+            ->paginate(config('display.page_size'));
+
+        $categories = Category::orderBy('created_at', 'desc')->get();
         return view('frontend.category', [
             'category_slug' => $slug,
-            'articles' => $category->articles()->paginate(config('display.page_size')),
+            'articles' => $articles,
             'categories' => $categories,
             'category' => $category
         ]);

@@ -16,7 +16,9 @@ class CategoryController extends Controller
      */
     public function listAction()
     {
-        $categories = Category::orderBy('updated_at', 'asc')->paginate(config('display.page_size'));
+        $categories = Category::orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->paginate(config('display.page_size'));
 
         return view('panel.categories', ['categories' => $categories]);
     }
@@ -37,7 +39,7 @@ class CategoryController extends Controller
     {
         Category::create($request->all());
 
-        return redirect(route('manager.categories.list'));
+        return redirect()->route('manager.categories.list');
     }
 
     /**
@@ -62,7 +64,7 @@ class CategoryController extends Controller
         $category->title = $request->get('title');
         $category->save();
 
-        return redirect(route('manager.categories.list'));
+        return redirect()->route('manager.categories.list');
     }
 
     /**

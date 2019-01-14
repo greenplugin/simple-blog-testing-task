@@ -11,7 +11,7 @@ class ArticleController extends Controller
     public function showAction($categorySlug, $slug)
     {
         $article = Article::where(['slug' => $slug])->firstOrFail();
-        $categories = Category::orderBy('updated_at', 'asc')->get();
+        $categories = Category::orderBy('created_at', 'desc')->get();
         return view('frontend.article', [
             'category_slug' => $categorySlug,
             'article' => $article,

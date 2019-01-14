@@ -2,5 +2,5 @@
 declare(strict_types=1);
 
 return [
-    'page_size' => 3
+    'page_size' => 5
 ];

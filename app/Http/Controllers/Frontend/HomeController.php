@@ -10,8 +10,10 @@ class HomeController extends Controller
 {
     public function articlesAction()
     {
-        $categories = Category::orderBy('updated_at', 'asc')->get();
-        $articles = Article::orderBy('updated_at', 'asc')->paginate(config('display.page_size'));
+        $categories = Category::orderBy('created_at', 'desc')->get();
+        $articles = Article::orderBy('updated_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->paginate(config('display.page_size'));;
 
         return view('frontend.blog', ['categories' => $categories, 'articles' => $articles]);
     }

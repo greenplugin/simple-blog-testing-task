@@ -23,7 +23,11 @@
                             <label for="article_category">Category</label>
                             <select id="article_category" name="category_id" class="uk-select">
                                 @foreach($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->title}}</option>
+                                    @if($category->id === $article->category->id)
+                                        <option selected value="{{$category->id}}">{{$category->title}}</option>
+                                    @else
+                                        <option value="{{$category->id}}">{{$category->title}}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>

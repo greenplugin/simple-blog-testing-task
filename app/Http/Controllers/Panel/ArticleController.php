@@ -17,7 +17,9 @@ class ArticleController extends Controller
      */
     public function listAction()
     {
-        $articles = Article::orderBy('updated_at', 'asc')->paginate(config('display.page_size'));
+        $articles = Article::orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
+            ->paginate(config('display.page_size'));
 
         return view('panel.articles', ['articles' => $articles]);
     }
@@ -27,7 +29,7 @@ class ArticleController extends Controller
      */
     public function createFormAction()
     {
-        $categories = Category::orderBy('updated_at', 'asc')->get();
+        $categories = Category::orderBy('created_at', 'desc')->get();
 
         return view('panel.article_create', ['categories' => $categories]);
     }
@@ -40,7 +42,7 @@ class ArticleController extends Controller
     {
         $article = Article::create($request->all());
 
-        return redirect(route('manager.article.edit.form', ['slug' => $article->slug]));
+        return redirect()->route('manager.article.edit.form', ['slug' => $article->slug]);
     }
 
     /**
@@ -68,7 +70,7 @@ class ArticleController extends Controller
         $article->content = $request->get('content');
         $article->save();
 
-        return redirect(route('manager.articles.list'));
+        return redirect()->route('manager.articles.list');
     }
 
     /**
