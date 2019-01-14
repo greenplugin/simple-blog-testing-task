@@ -15,10 +15,15 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('slug', 64);
+            $table->unsignedInteger('category_id');
+            $table->string('slug', 64)->unique();
             $table->string('title', 128);
             $table->text('content')->nullable();
             $table->timestamps();
+
+            $table->foreign('category_id')
+                ->references('id')->on('categories')
+                ->onDelete('restrict');
         });
     }
 

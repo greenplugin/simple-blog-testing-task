@@ -4,18 +4,19 @@
     <div uk-grid>
         <div class="uk-card-default uk-width-1-1">
             <div class="uk-card-body">
-                <form action="{{route('manager.article.create.action')}}" method="post">
+                <form action="{{route('manager.article.edit.action', ['slug' => $article->slug])}}" method="post">
                     @csrf
                     <fieldset class="uk-fieldset">
-                        <legend class="uk-legend">New article</legend>
+                        <legend class="uk-legend">Edit article</legend>
                         <div class="uk-margin">
-                            <label for="article_title">Title</label>
-                            <input id="article_title" name="title" value="{{old('title')}}" class="uk-input" type="text"
-                                   placeholder="Article title">
+                            <label for="article_title"></label>
+                            <input id="article_title" value="{{old('title') ?? $article->title}}"
+                                   name="title" class="uk-input" type="text" placeholder="Article title">
                         </div>
                         <div class="uk-margin">
-                            <label for="article_slug">Slug</label>
-                            <input id="article_slug" name="slug" value="{{old('slug') }}" class="uk-input" type="text"
+                            <label for="article_slug"></label>
+                            <input id="article_slug" value="{{old('slug') ?? $article->slug}}"
+                                   name="slug" class="uk-input" type="text"
                                    placeholder="Article slug">
                         </div>
                         <div class="uk-margin">
@@ -25,6 +26,16 @@
                                     <option value="{{$category->id}}">{{$category->title}}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="uk-margin">
+                            <textarea hidden name="content">{{old('content') ?? $article->content}}</textarea>
+                            <a href="#" id="content_edit"
+                               class="uk-margin-remove-bottom uk-button uk-button-secondary uk-align-center">
+                                Edit content
+                            </a>
+                            <div class="uk-padding uk-card uk-card-default" id="content">
+                                @markdown((old('content') ?? $article->content))
+                            </div>
                         </div>
                         <div class="uk-margin">
                             @if ($errors->any())
@@ -37,7 +48,7 @@
                         </div>
                     </fieldset>
                     <button type="submit"
-                            class="uk-margin-remove-bottom uk-button uk-button-secondary uk-align-right">Create
+                            class="uk-margin-remove-bottom uk-button uk-button-secondary uk-align-right">Update
                     </button>
                     <a href="{{route('manager.articles.list')}}"
                        class="uk-margin-remove-bottom uk-button uk-button-default uk-align-right">Back</a>

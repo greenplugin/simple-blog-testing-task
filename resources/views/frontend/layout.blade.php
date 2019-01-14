@@ -11,9 +11,10 @@
 <body>
 
 <nav class="uk-background-primary uk-light" uk-navbar>
-    <div class="uk-navbar-center ">
-        <ul class="uk-navbar-nav ">
-            <li class="uk-active"><a href="#">Simple blog</a></li>
+    <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="{{route('manager.home')}}">Simple blog Dashboard</a></li>
+            <li class="uk-active"><a href="{{route('frontend.home')}}">Simple blog Frontend</a></li>
         </ul>
     </div>
 </nav>
@@ -21,10 +22,12 @@
 <div class="uk-container uk-margin-top">
     <div class="uk-grid-small" uk-grid>
         <div class="uk-width-1-5">
-            <div class="uk-background-primary uk-padding uk-light">
+            <div class="uk-background-primary uk-padding uk-light uk-height-1-1">
+                <ul class="uk-nav uk-nav-default">
                 @section('sidebar')
-                    This is the master sidebar.
-                @show
+                        <li class="uk-active"><a href="#">placeholder</a></li>
+                    @show
+                </ul>
             </div>
         </div>
         <div class="uk-width-4-5">

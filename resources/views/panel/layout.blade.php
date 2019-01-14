@@ -13,12 +13,13 @@
 <nav class="uk-background-secondary uk-light" uk-navbar>
     <div class="uk-navbar-center ">
         <ul class="uk-navbar-nav ">
-            <li class="uk-active"><a href="#">Simple blog</a></li>
+            <li class="uk-active"><a href="{{route('manager.home')}}">Simple blog Dashboard</a></li>
+            <li class="uk-active"><a href="{{route('frontend.home')}}">Simple blog Frontend</a></li>
         </ul>
     </div>
 </nav>
 
-<div class="uk-container uk-margin-top">
+<div class="uk-container uk-margin-top uk-margin-bottom">
     @yield('content')
 </div>
 

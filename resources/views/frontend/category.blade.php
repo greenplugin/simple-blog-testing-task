@@ -1,8 +1,9 @@
 @extends('frontend.layout')
 
 @section('sidebar')
-    @include('frontend.sidebar', ['category_slug' => '', 'categories' => $categories])
+    @include('frontend.sidebar', ['category_slug' => $category_slug, 'categories' => $categories])
 @endsection
+
 
 @section('content')
     <div uk-grid>
