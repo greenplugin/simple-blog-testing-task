@@ -15,7 +15,7 @@ class CategoryRequestTest extends TestCase
      */
     public function testCategoryCreateRequestError()
     {
-        $response = $this->post('/manager/category/create', [
+        $response = $this->post('/manager/categories', [
             'title' => '',
             'slug' => 'wrong slug'
         ]);
@@ -30,7 +30,7 @@ class CategoryRequestTest extends TestCase
      */
     public function testCategoryCreateRequestSuccess()
     {
-        $response = $this->post('/manager/category/create', [
+        $response = $this->post('/manager/categories', [
             'title' => 'title',
             'slug' => 'slug'
         ]);
