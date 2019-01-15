@@ -7,7 +7,7 @@
                     <h1>Categories</h1>
                 </div>
                 <div class="uk-width-auto">
-                    <a href="{{route('manager.category.create.form')}}"
+                    <a href="{{route('manager.categories.create')}}"
                        class="uk-button uk-button-secondary uk-align-right">Add</a>
                     <a href="{{route('manager.home')}}"
                        class="uk-button uk-button-default uk-align-right">Back</a>
@@ -23,9 +23,11 @@
                     </div>
                 </div>
                 <div class="uk-card-footer">
-                    <button data-url="{{route('manager.category.delete.action')}}" data-slug="{{$category->slug}}"
-                       class="uk-button uk-button-danger uk-align-right delete">Delete</button>
-                    <a href="{{route('manager.category.edit.form', ['slug'=> $category->slug])}}"
+                    <button data-url="{{route('manager.categories.destroy', ['category' => $category])}}"
+                            class="uk-button uk-button-danger uk-align-right delete">
+                        Delete
+                    </button>
+                    <a href="{{route('manager.categories.edit', ['category'=> $category])}}"
                        class="uk-button uk-button-default uk-align-right">Edit</a>
                 </div>
             </div>

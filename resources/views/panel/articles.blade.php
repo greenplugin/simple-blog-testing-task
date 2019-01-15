@@ -7,7 +7,7 @@
                     <h1>Articles</h1>
                 </div>
                 <div class="uk-width-auto">
-                    <a href="{{route('manager.article.create.form')}}"
+                    <a href="{{route('manager.articles.create')}}"
                        class="uk-button uk-button-secondary uk-align-right">Add</a>
                     <a href="{{route('manager.home')}}"
                        class="uk-button uk-button-default uk-align-right">Back</a>
@@ -23,13 +23,13 @@
                     </div>
                 </div>
                 <div class="uk-card-body">
-                    @markdown($article->getTruncatedContent(200))
+                    @markdown($article->getTruncatedContent())
                 </div>
                 <div class="uk-card-footer">
-                    <button data-url="{{route('manager.article.delete.action')}}" data-slug="{{$article->slug}}"
+                    <button data-url="{{route('manager.articles.destroy', ['article' => $article])}}"
                             class="uk-button uk-button-danger uk-align-right delete">Delete
                     </button>
-                    <a href="{{route('manager.article.edit.form', ['slug'=> $article->slug])}}"
+                    <a href="{{route('manager.articles.edit', ['article'=> $article])}}"
                        class="uk-button uk-button-default uk-align-right">Edit</a>
                 </div>
             </div>

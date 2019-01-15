@@ -4,18 +4,19 @@
     <div uk-grid>
         <div class="uk-card-default uk-width-1-1">
             <div class="uk-card-body">
-                <form action="{{route('manager.article.edit.action', ['slug' => $article->slug])}}" method="post">
+                <form action="{{route('manager.articles.update', ['article' => $article])}}" method="post">
                     @csrf
+                    @method('PUT')
                     <fieldset class="uk-fieldset">
                         <legend class="uk-legend">Edit article</legend>
                         <div class="uk-margin">
                             <label for="article_title"></label>
-                            <input id="article_title" value="{{old('title') ?? $article->title}}"
+                            <input id="article_title" value="{{old('title',  $article->title)}}"
                                    name="title" class="uk-input" type="text" placeholder="Article title">
                         </div>
                         <div class="uk-margin">
                             <label for="article_slug"></label>
-                            <input id="article_slug" value="{{old('slug') ?? $article->slug}}"
+                            <input id="article_slug" value="{{old('slug', $article->slug)}}"
                                    name="slug" class="uk-input" type="text"
                                    placeholder="Article slug">
                         </div>
@@ -23,22 +24,19 @@
                             <label for="article_category">Category</label>
                             <select id="article_category" name="category_id" class="uk-select">
                                 @foreach($categories as $category)
-                                    @if($category->id === $article->category->id)
-                                        <option selected value="{{$category->id}}">{{$category->title}}</option>
-                                    @else
-                                        <option value="{{$category->id}}">{{$category->title}}</option>
-                                    @endif
+                                    <option {{ (collect(old('category_id', $article->category->id))->contains($category->id)) ? 'selected':'' }}
+                                            value="{{$category->id}}">{{$category->title}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="uk-margin">
-                            <textarea hidden name="content">{{old('content') ?? $article->content}}</textarea>
+                            <textarea hidden name="content">{{old('content', $article->content)}}</textarea>
                             <a href="#" id="content_edit"
                                class="uk-margin-remove-bottom uk-button uk-button-secondary uk-align-center">
                                 Edit content
                             </a>
                             <div class="uk-padding uk-card uk-card-default" id="content">
-                                @markdown((old('content') ?? $article->content))
+                                @markdown(old('content', $article->content))
                             </div>
                         </div>
                         <div class="uk-margin">
@@ -54,7 +52,7 @@
                     <button type="submit"
                             class="uk-margin-remove-bottom uk-button uk-button-secondary uk-align-right">Update
                     </button>
-                    <a href="{{route('manager.articles.list')}}"
+                    <a href="{{route('manager.articles.index')}}"
                        class="uk-margin-remove-bottom uk-button uk-button-default uk-align-right">Back</a>
                 </form>
             </div>

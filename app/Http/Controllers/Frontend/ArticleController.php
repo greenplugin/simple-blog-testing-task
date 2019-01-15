@@ -8,12 +8,16 @@ use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
-    public function showAction($categorySlug, $slug)
+    /**
+     * @param Category $category
+     * @param Article $article
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function __invoke(Category $category, Article $article)
     {
-        $article = Article::where(['slug' => $slug])->firstOrFail();
         $categories = Category::orderBy('created_at', 'desc')->get();
         return view('frontend.article', [
-            'category_slug' => $categorySlug,
+            'category_slug' => $category->slug,
             'article' => $article,
             'categories' => $categories
         ]);

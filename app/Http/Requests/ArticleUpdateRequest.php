@@ -2,8 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Article;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
+/**
+ * Class ArticleUpdateRequest
+ * @property Article $article
+ */
 class ArticleUpdateRequest extends FormRequest
 {
     /**
@@ -25,7 +31,12 @@ class ArticleUpdateRequest extends FormRequest
     {
         return [
             'title' => 'required|max:128',
-            'slug' => 'required|max:64|regex:/^[a-zA-Z0-9_-]+$/',
+            'slug' => [
+                'required',
+                'max:64',
+                'regex:/^[a-zA-Z0-9_-]+$/',
+                Rule::unique('articles')->ignore($this->article)
+            ],
             'content' => 'required'
         ];
     }

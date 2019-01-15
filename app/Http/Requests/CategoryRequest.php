@@ -2,9 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CategoryCreateRequest extends FormRequest
+/**
+ * Class CategoryUpdateRequest
+ * @property Category|null $category
+ */
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +31,12 @@ class CategoryCreateRequest extends FormRequest
     {
         return [
             'title' => 'required|max:128',
-            'slug' => 'required|unique:categories|max:64|regex:/^[a-zA-Z0-9_-]+$/'
+            'slug' => [
+                'required',
+                'max:64',
+                'regex:/^[a-zA-Z0-9_-]+$/',
+                Rule::unique('categories')->ignore($this->category ?$this->category->id : '')
+            ]
         ];
     }
 }

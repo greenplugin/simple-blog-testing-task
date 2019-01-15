@@ -7,17 +7,21 @@ use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
-    public function showAction($slug)
+    /**
+     * @param Category $category
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function __invoke(Category $category)
     {
-        $category = Category::where(['slug' => $slug])->firstOrFail();
-
         $articles = $category->articles()
-            ->orderBy('created_at', 'desc')->orderBy('id', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->paginate(config('display.page_size'));
 
         $categories = Category::orderBy('created_at', 'desc')->get();
+
         return view('frontend.category', [
-            'category_slug' => $slug,
+            'category_slug' => $category->slug,
             'articles' => $articles,
             'categories' => $categories,
             'category' => $category

@@ -11,7 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(CategorySeeder::class);
-        $this->call(ArticleSeeder::class);
+        factory(App\Category::class, 20)->create()->each(function (\App\Category $category) {
+            factory(App\Article::class, 20)->make()->each(function (\App\Article $article) use ($category) {
+                $category->articles()->save($article);
+            });
+        });
     }
 }

@@ -4,7 +4,7 @@
     <div uk-grid>
         <div class="uk-card-default uk-width-1-1">
             <div class="uk-card-body">
-                <form action="{{route('manager.category.create.action')}}" method="post">
+                <form action="{{route('manager.categories.store')}}" method="post">
                     @csrf
                     <fieldset class="uk-fieldset">
                         <legend class="uk-legend">New category</legend>
@@ -30,7 +30,7 @@
                     </fieldset>
                     <button type="submit"
                             class="uk-margin-remove-bottom uk-button uk-button-secondary uk-align-right">Create</button>
-                    <a href="{{route('manager.categories.list')}}"
+                    <a href="{{route('manager.categories.index')}}"
                             class="uk-margin-remove-bottom uk-button uk-button-default uk-align-right">Back</a>
                 </form>
             </div>

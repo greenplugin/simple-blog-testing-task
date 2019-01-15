@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Category
@@ -26,16 +27,24 @@ class Article extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'category_id'
+        'title', 'slug', 'category_id', 'content'
     ];
+
+    /**
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * @param int $length
      * @return bool|string
      */
-    public function getTruncatedContent(int $length = 200)
+    public function getTruncatedContent(int $length = 30)
     {
-        return strlen($this->content) > $length ? substr($this->content, 0, $length) . '...' : $this->content;
+        return Str::words($this->content, $length, '...');
     }
 
     /**

@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Category;
-use App\Http\Requests\CategoryCreateRequest;
-use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function listAction()
+    public function index()
     {
         $categories = Category::orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
@@ -24,58 +24,64 @@ class CategoryController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function createFormAction()
+    public function create()
     {
         return view('panel.category_create');
     }
 
     /**
-     * @param CategoryCreateRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * Store a newly created resource in storage.
+     *
+     * @param  CategoryRequest $request
+     * @return \Illuminate\Http\Response
      */
-    public function createAction(CategoryCreateRequest $request)
+    public function store(CategoryRequest $request)
     {
         Category::create($request->all());
 
-        return redirect()->route('manager.categories.list');
+        return redirect()->route('manager.categories.index');
     }
 
     /**
-     * @param string $slug
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Category $category
+     * @return \Illuminate\Http\Response
      */
-    public function editFormAction(string $slug)
+    public function edit(Category $category)
     {
-        $category = Category::where(['slug' => $slug])->firstOrFail();
         return view('panel.category_edit', ['category' => $category]);
     }
 
     /**
-     * @param string $slug
-     * @param CategoryUpdateRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * Update the specified resource in storage.
+     *
+     * @param  CategoryRequest $request
+     * @param  \App\Category $category
+     * @return \Illuminate\Http\Response
      */
-    public function editAction(string $slug, CategoryUpdateRequest $request)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $category = Category::where(['slug' => $slug])->firstOrFail();
-        $category->slug = $request->get('slug');
-        $category->title = $request->get('title');
+        $category->fill($request->all());
         $category->save();
 
-        return redirect()->route('manager.categories.list');
+        return redirect()->route('manager.categories.index');
     }
 
     /**
-     * @param Request $request
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Category $category
      * @return JsonResponse
      * @throws \Exception
      */
-    public function deleteAction(Request $request)
+    public function destroy(Category $category)
     {
-        $article = Category::where(['slug' => $request->get('slug')])->firstOrFail();
-        $article->delete();
+        $category->delete();
 
         return JsonResponse::create();
     }

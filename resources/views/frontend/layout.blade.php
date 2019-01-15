@@ -24,7 +24,7 @@
         <div class="uk-width-1-5">
             <div class="uk-background-primary uk-padding uk-light uk-height-1-1">
                 <ul class="uk-nav uk-nav-default">
-                @section('sidebar')
+                    @section('sidebar')
                         <li class="uk-active"><a href="#">placeholder</a></li>
                     @show
                 </ul>

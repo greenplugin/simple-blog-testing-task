@@ -31,7 +31,7 @@ const deleteButtons = document.querySelectorAll('.delete')
 deleteButtons.forEach((button) => {
   button.addEventListener('click', () => {
     if (window.confirm('Do you really want to delete?')) {
-      axios.post(button.dataset.url, {'slug': button.dataset.slug})
+      axios.delete(button.dataset.url)
         .then((response) => {
           location.reload()
         })

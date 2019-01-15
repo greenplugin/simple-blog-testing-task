@@ -8,14 +8,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function listAction()
+    public function index()
     {
         $articles = Article::orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
@@ -25,9 +26,11 @@ class ArticleController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function createFormAction()
+    public function create()
     {
         $categories = Category::orderBy('created_at', 'desc')->get();
 
@@ -35,54 +38,56 @@ class ArticleController extends Controller
     }
 
     /**
-     * @param ArticleCreateRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * Store a newly created resource in storage.
+     *
+     * @param  ArticleCreateRequest $request
+     * @return \Illuminate\Http\Response
      */
-    public function createAction(ArticleCreateRequest $request)
+    public function store(ArticleCreateRequest $request)
     {
         $article = Article::create($request->all());
 
-        return redirect()->route('manager.article.edit.form', ['slug' => $article->slug]);
+        return redirect()->route('manager.articles.edit', ['article' => $article]);
     }
 
     /**
-     * @param string $slug
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Article $article
+     * @return \Illuminate\Http\Response
      */
-    public function editFormAction(string $slug)
+    public function edit(Article $article)
     {
         $categories = Category::orderBy('updated_at', 'asc')->get();
-        $article = Article::where(['slug' => $slug])->firstOrFail();
 
         return view('panel.article_edit', ['article' => $article, 'categories' => $categories]);
     }
 
     /**
-     * @param string $slug
-     * @param ArticleUpdateRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * Update the specified resource in storage.
+     *
+     * @param  ArticleUpdateRequest $request
+     * @param  \App\Article $article
+     * @return \Illuminate\Http\Response
      */
-    public function editAction(string $slug, ArticleUpdateRequest $request)
+    public function update(ArticleUpdateRequest $request, Article $article)
     {
-        $article = Article::where(['slug' => $slug])->firstOrFail();
-        $article->slug = $request->get('slug');
-        $article->title = $request->get('title');
-        $article->content = $request->get('content');
+        $article->fill($request->all());
         $article->save();
 
-        return redirect()->route('manager.articles.list');
+        return redirect()->route('manager.articles.index');
     }
 
     /**
-     * @param Request $request
-     * @return JsonResponse
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Article $article
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function deleteAction(Request $request)
+    public function destroy(Article $article)
     {
-        $article = Article::where(['slug' => $request->get('slug')])->firstOrFail();
         $article->delete();
-
         return JsonResponse::create();
     }
 }

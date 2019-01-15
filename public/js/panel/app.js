@@ -14802,9 +14802,7 @@ var deleteButtons = document.querySelectorAll('.delete');
 deleteButtons.forEach(function (button) {
   button.addEventListener('click', function () {
     if (window.confirm('Do you really want to delete?')) {
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(button.dataset.url, {
-        'slug': button.dataset.slug
-      }).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.delete(button.dataset.url).then(function (response) {
         location.reload();
       }).catch(function (e) {
         alert(e.message);
